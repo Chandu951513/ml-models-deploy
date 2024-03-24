@@ -21,6 +21,15 @@ def Predict_api():
     return jsonify(data[0])
 
 
+@app.route('/predict',methods=['POST'])
+def predict():
+    data=[float(x) for x in request.form.values()]
+    final_out=scaler.transform(np.array(data).reshape(1,-1))
+    out=model.predict(final_out)[0]
+    return render_template("home.html",prediction_text="have diabetes is {}".format(out))
+
+
+
 
 if __name__=="__main__":
     app.run(debug=True)
